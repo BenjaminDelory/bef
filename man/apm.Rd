@@ -8,7 +8,7 @@ apm(mix, mono, ry=NULL, method="loreau")
 \arguments{
   \item{mix}{A matrix or a data frame containing the biomass of each plant species (columns) in each mixture plot (lines). Column (species) names must be provided.}
   \item{mono}{A matrix or a data frame containing the biomass of each plant species (columns) in each monoculture plot (lines). Column (species) names must be provided.}
-  \item{ry}{A matrix or a data frame giving the expected relative yield of each species (columns) in each mixture plot (lines). See details.}
+  \item{ry}{A matrix or a data frame giving the expected relative yield of each species (columns) in each mixture plot (lines). Column (species) names must be provided. See details.}
   \item{method}{The additive partitioning method to be used. Could be either \dQuote{loreau} (two-way partitioning method of \cite{Loreau and Hector (2001)}) or \dQuote{fox} (tripartite partitioning method of \cite{Fox (2005)}).}
 }
 \details{
