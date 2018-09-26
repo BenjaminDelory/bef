@@ -1,0 +1,10 @@
+Package: bef
+Type: Package
+Title: Tools for Biodiversity-Ecosystem Functioning Research
+Version: 1.0
+Date: 2018-09-26
+Author: Benjamin M Delory 
+Maintainer: Benjamin M Delory <Benjamin.Delory@leuphana.de>
+Description: This package contains tools useful for researchers involved in biodiversity-ecosystem functioning research, such as methods to partition net biodiversity effects into complementarity and dominance/selection effects.
+License: GPL-3
+BugReports: https://github.com/BenjaminDelory/bef/issues

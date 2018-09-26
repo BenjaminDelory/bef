@@ -1,0 +1,2 @@
+"Achmil","Dacglo","Fespra","Hollan","Leuvul","Lotcor","Medsat","Plalan","Tripra"
+"Mono1",76.85,95.4,49,87.7,97.9,541.25,543.05,170.25,399.65
