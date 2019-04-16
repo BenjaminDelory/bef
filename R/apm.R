@@ -5,7 +5,7 @@ apm<-function(mix, mono, ry=NULL, method="loreau"){
   if (is.data.frame(mono)==TRUE|is.matrix(mono)==TRUE) {} else {stop("mono must be a matrix or a data frame")}
   if (is.numeric(mix)==TRUE|is.numeric(mono)==TRUE) {} else {"mix and mono must contain numeric values"}
   if (method=="loreau"|method=="fox") {} else {stop("method must be eihter loreau or fox")}
-  
+
   if (is.null(colnames(mix))==TRUE|is.null(colnames(mono))==TRUE){stop("Provide species names/codes as column names in mix and mono")}
   for (i in 1:ncol(mix)){if (colnames(mix)[i] %in% colnames(mono)) {} else {stop(paste(colnames(mix)[i], " was not found in mono", sep=""))}}
   
@@ -39,7 +39,7 @@ apm<-function(mix, mono, ry=NULL, method="loreau"){
   mono<-t(as.matrix(apply(mono, 2, mean, na.rm=TRUE)))
   
   #Additive partitioning
-  N<-apply(ry, 1, function(x){sum(x>0)}) #Number of species sown in each plot
+  N<-apply(ry, 1, function(x){sum(x>0)}) #Sown species richness in each plot
   obs.tot.y<-apply(mix, 1, sum) #Total observed yield of the mixtures
   
   obs.ry<-mix
