@@ -49,13 +49,22 @@ apm<-function(mix, mono, ry=NULL, method="loreau"){
     exp.y[,i]<-exp.y[,i]*mono[,colnames(exp.y)[i]]} #Expected yield of each species in mixtures
   
   exp.tot.y<-apply(exp.y, 1, sum) #Total expected yield of the mixtures
-  delta.ry<-obs.ry-ry #Deviation from expected relative yield of each species in the mixtures
+  delta.ry<-obs.ry-ry[,match(colnames(ry), colnames(obs.ry))] #Deviation from expected relative yield of each species in the mixtures
+  
+  mean.delta.ry<-c()
+  mean.mono<-c()
+  covar<-c()
+  
+  for (i in 1:nrow(ry)){
+    mean.delta.ry[i]<-mean(delta.ry[i, colnames(ry)[which(ry[i,]>0)]])
+    mean.mono[i]<-mean(mono[,colnames(ry)[which(ry[i,]>0)]])
+    covar[i]<-covariance(delta.ry[i, colnames(ry)[which(ry[i,]>0)]], mono[, colnames(ry)[which(ry[i,]>0)]])}
   
   if (method=="loreau"){
     results<-matrix(ncol=3, nrow=nrow(mix))
     results[,1]<-obs.tot.y-exp.tot.y #Net biodiversity effect
-    results[,2]<-N*apply(delta.ry, 1, mean)*mean(mono[,colnames(mix)]) #Complementarity effect
-    results[,3]<-N*apply(delta.ry, 1, function(x){covariance(x, mono[,colnames(mix)])}) #Selection effect
+    results[,2]<-N*mean.delta.ry*mean.mono #Complementarity effect
+    results[,3]<-N*covar #Selection effect
     colnames(results)<-c("NBE", "CE", "SE")
     rownames(results)<-rownames(mix)}
   
@@ -64,11 +73,20 @@ apm<-function(mix, mono, ry=NULL, method="loreau"){
     obs.freq<-obs.ry
     for (i in 1:ncol(obs.freq)){obs.freq[,i]<-obs.freq[,i]/obs.ry.tot} #Observed frequency of each species in mixtures
     
+    covar1<-c()
+    covar2<-c()
+    
+    for (i in 1:nrow(ry)){
+      
+      col<-colnames(ry)[which(ry[i,]>0)]
+      covar1[i]<-covariance(obs.ry[i, col]-obs.freq[i, col], mono[, col])
+      covar2[i]<-covariance(obs.freq[i, col]-ry[i, col], mono[, col])}
+    
     results<-matrix(ncol=4, nrow=nrow(mix))
     results[,1]<-obs.tot.y-exp.tot.y #Net biodiversity effect
-    results[,2]<-N*apply(delta.ry, 1, mean)*mean(mono[,colnames(mix)]) #Trait-independent complementarity effect
-    results[,3]<-N*apply(obs.ry-obs.freq, 1, function(x){covariance(x, mono[,colnames(mix)])}) #Trait-dependent complementarity effect
-    results[,4]<-N*apply(obs.freq-ry, 1, function(x){covariance(x, mono[,colnames(mix)])}) #Dominance effect
+    results[,2]<-N*mean.delta.ry*mean.mono #Trait-independent complementarity effect
+    results[,3]<-N*covar1 #Trait-dependent complementarity effect
+    results[,4]<-N*covar2 #Dominance effect
     colnames(results)<-c("NBE", "TICE", "TDCE", "DE")
     rownames(results)<-rownames(mix)}
   
